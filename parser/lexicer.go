@@ -13,27 +13,32 @@ var (
 	SLASH uint8 = 4 // /
 )
 
-func Analicys(xml string) []*Token {
+func Analicys(xml string) []Token {
 	lex := lexicer{text: xml, index: 0}
-	tokens := []*Token{}
+	tokens := []Token{}
 
 	for lex.index < len(xml) {
 		switch lex.nextChar() {
 		case '<':
-			tokens = append(tokens, &Token{Kind: LAB})
+			tokens = append(tokens, Token{Kind: LAB})
 			lex.next()
 		case '>':
-			tokens = append(tokens, &Token{Kind: RAB})
+			tokens = append(tokens, Token{Kind: RAB})
 			lex.next()
 		case '=':
-			tokens = append(tokens, &Token{Kind: EQ})
+			tokens = append(tokens, Token{Kind: EQ})
 			lex.next()
 		case '/':
-			tokens = append(tokens, &Token{Kind: SLASH})
+			tokens = append(tokens, Token{Kind: SLASH})
 			lex.next()
+		case ' ', '\n', '\r':
+			lex.next()
+		case '\'', '"':
+			text := lex.takeOutTextInQuotes()
+			tokens = append(tokens, Token{Kind: TEXT, Value: text})
 		default:
 			text := lex.takeOutText()
-			tokens = append(tokens, &Token{Kind: TEXT, Value: text})
+			tokens = append(tokens, Token{Kind: TEXT, Value: text})
 		}
 	}
 
@@ -56,8 +61,19 @@ func (lex *lexicer) next() int {
 
 func (lex *lexicer) takeOutText() string {
 	firstIdx := lex.index
-	for lex.nextChar() != '<' && lex.nextChar() != '>' {
+	for lex.nextChar() != '<' && lex.nextChar() != '>' && lex.nextChar() != ' ' && lex.nextChar() != '=' {
 		lex.next()
 	}
+	return lex.text[firstIdx:lex.index]
+}
+
+func (lex *lexicer) takeOutTextInQuotes() string {
+	firstIdx := lex.index
+	quote := lex.nextChar()
+	lex.next()
+	for lex.nextChar() != quote {
+		lex.next()
+	}
+	lex.next()
 	return lex.text[firstIdx:lex.index]
 }
