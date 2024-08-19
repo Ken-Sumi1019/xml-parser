@@ -18,3 +18,5 @@ func (parent *mountain) AddChild(child *mountain) {
 func (parent *mountain) Search(equalFn func(*mountain) bool) *mountain {
 	return nil
 }
+
+func main() {}
