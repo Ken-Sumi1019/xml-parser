@@ -1,0 +1,21 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: pwd
+      - run: ls
+
+      - uses: actions/setup-node@v3
+        with:
+          go-version-file: .go-version
+
+      - run: go install
+      - run: go test ./...
