@@ -27,7 +27,7 @@ func TestTypical(t *testing.T) {
 }
 
 func TestAttribute(t *testing.T) {
-	xml := "<html key=\"value\" key2=\"value2\">konichiha</html>"
+	xml := "<html key=\"value\" key2=\"va\\\"lue2\">konichiha</html>"
 	target := []parser.Token{
 		{Kind: parser.LAB},
 		{Kind: parser.TEXT, Value: "html"},
@@ -36,7 +36,7 @@ func TestAttribute(t *testing.T) {
 		{Kind: parser.TEXT, Value: "\"value\""},
 		{Kind: parser.TEXT, Value: "key2"},
 		{Kind: parser.EQ},
-		{Kind: parser.TEXT, Value: "\"value2\""},
+		{Kind: parser.TEXT, Value: "\"va\\\"lue2\""},
 		{Kind: parser.RAB},
 		{Kind: parser.TEXT, Value: "konichiha"},
 		{Kind: parser.LAB},

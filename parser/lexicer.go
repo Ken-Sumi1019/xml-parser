@@ -72,6 +72,9 @@ func (lex *lexicer) takeOutTextInQuotes() string {
 	quote := lex.nextChar()
 	lex.next()
 	for lex.nextChar() != quote {
+		if lex.nextChar() == '\\' {
+			lex.next()
+		}
 		lex.next()
 	}
 	lex.next()
