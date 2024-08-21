@@ -1,6 +1,7 @@
 package parser_test
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 	"xml-parser/parser"
@@ -8,7 +9,7 @@ import (
 
 func TestTypical(t *testing.T) {
 	xml := "<html>konichiha</html>"
-	target := []parser.Token{
+	target := []*parser.Token{
 		{Kind: parser.LAB},
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
@@ -21,14 +22,14 @@ func TestTypical(t *testing.T) {
 	tokens := parser.Analicys(xml)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", xml, tokens)
+			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
 		}
 	})
 }
 
 func TestAttribute(t *testing.T) {
 	xml := "<html key=\"value\" key2=\"va\\\"lue2\">konichiha</html>"
-	target := []parser.Token{
+	target := []*parser.Token{
 		{Kind: parser.LAB},
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.TEXT, Value: "key"},
@@ -47,7 +48,15 @@ func TestAttribute(t *testing.T) {
 	tokens := parser.Analicys(xml)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", xml, tokens)
+			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
 		}
 	})
+}
+
+func tokensToString(tokens []*parser.Token) string {
+	result := ""
+    for _,v :=range tokens {
+        result += fmt.Sprintf("%+v", *v)
+    }
+    return result
 }
