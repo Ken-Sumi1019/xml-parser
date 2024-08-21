@@ -1,5 +1,7 @@
 package parser
 
+import "strings"
+
 type Token struct {
 	Kind  uint8
 	Value string
@@ -64,7 +66,7 @@ func (lex *lexicer) takeOutText() string {
 	for lex.nextChar() != '<' && lex.nextChar() != '>' && lex.nextChar() != ' ' && lex.nextChar() != '=' {
 		lex.next()
 	}
-	return lex.text[firstIdx:lex.index]
+	return strings.Trim(lex.text[firstIdx:lex.index], "\n ")
 }
 
 func (lex *lexicer) takeOutTextInQuotes() string {
