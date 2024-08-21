@@ -15,7 +15,7 @@ var (
 	SLASH uint8 = 4 // /
 )
 
-func Analicys(xml string) []*Token {
+func Lexical(xml string) []*Token {
 	lex := lexicer{text: xml, index: 0}
 	tokens := []*Token{}
 
