@@ -30,7 +30,7 @@ func TestParserAttribute(t *testing.T) {
 
 	target := &parser.Node{
 		Tag: "html",
-        Attributes: map[string]string{"key": "\"value\"", "key2": "\"va\\\"lue2\""},
+        Attributes: map[string]string{"key": "value", "key2": "va\"lue2"},
         Children: []*parser.Node{
             {Text: "konichiha"},
         },
