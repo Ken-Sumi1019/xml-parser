@@ -70,15 +70,16 @@ func (lex *lexicer) takeOutText() string {
 }
 
 func (lex *lexicer) takeOutTextInQuotes() string {
-	firstIdx := lex.index
 	quote := lex.nextChar()
+	resultSlice := make([]byte, 0, 128)
 	lex.next()
 	for lex.nextChar() != quote {
 		if lex.nextChar() == '\\' {
 			lex.next()
 		}
+		resultSlice = append(resultSlice, lex.nextChar())
 		lex.next()
 	}
 	lex.next()
-	return lex.text[firstIdx:lex.index]
+	return string(resultSlice)
 }
