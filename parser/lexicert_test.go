@@ -19,7 +19,7 @@ func TestTypical(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Analicys(xml)
+	tokens := parser.Lexical(xml)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
 			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
@@ -45,7 +45,7 @@ func TestAttribute(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Analicys(xml)
+	tokens := parser.Lexical(xml)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
 			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
@@ -69,7 +69,7 @@ func TestNewLine(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Analicys(xml)
+	tokens := parser.Lexical(xml)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
 			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
@@ -102,7 +102,7 @@ func TestNest(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Analicys(xml)
+	tokens := parser.Lexical(xml)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
 			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
