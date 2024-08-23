@@ -8,7 +8,7 @@ import (
 )
 
 func TestTypical(t *testing.T) {
-	xml := "<html>konichiha</html>"
+	xml := `<html>konichiha</html>`
 	target := []*parser.Token{
 		{Kind: parser.LAB},
 		{Kind: parser.TEXT, Value: "html"},
@@ -28,7 +28,7 @@ func TestTypical(t *testing.T) {
 }
 
 func TestAttribute(t *testing.T) {
-	xml := "<html key=\"value\" key2=\"va\\\"lue2\">konichiha</html>"
+	xml := `<html key="value" key2="va\"lue2">konichiha</html>`
 	target := []*parser.Token{
 		{Kind: parser.LAB},
 		{Kind: parser.TEXT, Value: "html"},

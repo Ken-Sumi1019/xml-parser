@@ -7,7 +7,7 @@ import (
 )
 
 func TestParserTypical(t *testing.T) {
-	xml := "<html>konichiha</html>"
+	xml := `<html>konichiha</html>`
 	node := parser.Parse(xml)
 
 	target := &parser.Node{
@@ -25,7 +25,7 @@ func TestParserTypical(t *testing.T) {
 }
 
 func TestParserAttribute(t *testing.T) {
-	xml := "<html key=\"value\" key2=\"va\\\"lue2\">konichiha</html>"
+	xml := `<html key="value" key2="va\"lue2">konichiha</html>`
 	node := parser.Parse(xml)
 
 	target := &parser.Node{
