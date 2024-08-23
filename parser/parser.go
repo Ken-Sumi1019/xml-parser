@@ -71,7 +71,7 @@ func (parser *Parser)loogAheadToken(n int) *Token {
 
 func (parser *Parser)stackNode() {
     parser.next()
-    newNode := &Node{Tag: parser.nextToken().Value}
+    newNode := &Node{Tag: parser.nextToken().Value, Attributes: map[string]string{}}
     parser.next()
     for parser.nextToken().Kind != RAB {
         if parser.nextToken().Kind == TEXT && parser.loogAheadToken(1).Kind == EQ && parser.loogAheadToken(2).Kind == TEXT {
