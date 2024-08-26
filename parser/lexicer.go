@@ -15,11 +15,11 @@ var (
 	SLASH uint8 = 4 // /
 )
 
-func Lexical(xml string) []*Token {
-	lex := lexicer{text: xml, index: 0}
+func Lexical(html string) []*Token {
+	lex := lexicer{text: html, index: 0}
 	tokens := []*Token{}
 
-	for lex.index < len(xml) {
+	for lex.index < len(html) {
 		switch lex.nextChar() {
 		case '<':
 			tokens = append(tokens, &Token{Kind: LAB})

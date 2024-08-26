@@ -3,12 +3,12 @@ package parser_test
 import (
 	"fmt"
 	"testing"
-	"xml-parser/parser"
+	"html-parser/parser"
 )
 
 func TestParserTypical(t *testing.T) {
-	xml := `<html>konichiha</html>`
-	node := parser.Parse(xml)
+	html := `<html>konichiha</html>`
+	node := parser.Parse(html)
 
 	target := &parser.Node{
 		Tag: "html",
@@ -19,14 +19,14 @@ func TestParserTypical(t *testing.T) {
 	}
 	t.Run("parser typical", func(t *testing.T) {
 		if treeToString(node.Children[0],"") != treeToString(target,"") {
-			t.Errorf("%+v : %+v", xml, treeToString(target, ""))
+			t.Errorf("%+v : %+v", html, treeToString(target, ""))
 		}
 	})
 }
 
 func TestParserAttribute(t *testing.T) {
-	xml := `<html key="value" key2="va\"lue2">konichiha</html>`
-	node := parser.Parse(xml)
+	html := `<html key="value" key2="va\"lue2">konichiha</html>`
+	node := parser.Parse(html)
 
 	target := &parser.Node{
 		Tag: "html",
@@ -37,7 +37,7 @@ func TestParserAttribute(t *testing.T) {
 	}
 	t.Run("parser attribute", func(t *testing.T) {
 		if treeToString(node.Children[0],"") != treeToString(target,"") {
-			t.Errorf("%+v : %+v", xml, treeToString(node.Children[0], ""))
+			t.Errorf("%+v : %+v", html, treeToString(node.Children[0], ""))
 		}
 	})
 }

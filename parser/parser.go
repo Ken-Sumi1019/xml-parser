@@ -18,8 +18,8 @@ type Node struct {
 	Children   []*Node
 }
 
-func Parse(xml string) *Node {
-    tokens := Lexical(xml)
+func Parse(html string) *Node {
+    tokens := Lexical(html)
     parser := &Parser{tokens: tokens, index: 0, root: &Node{}}
     parser.tokens = tokens
     parser.stack = append(parser.stack, parser.root)
