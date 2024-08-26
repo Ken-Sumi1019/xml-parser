@@ -18,8 +18,8 @@ type Node struct {
 	Children   []*Node
 }
 
-func Parse(xml string) *Node {
-    tokens := Lexical(xml)
+func Parse(html string) *Node {
+    tokens := Lexical(html)
     parser := &Parser{tokens: tokens, index: 0, root: &Node{}}
     parser.tokens = tokens
     parser.stack = append(parser.stack, parser.root)
@@ -35,7 +35,7 @@ func (parser *Parser)analyze() {
         fmt.Printf("%+v \n", parser.stack)
         switch parser.nextToken().Kind {
         case LAB:
-            if parser.loogAheadToken(1).Kind == SLASH {
+            if parser.lookaheadToken(1).Kind == SLASH {
                 child := parser.stack[len(parser.stack)-1]
                 parser.stack = parser.stack[:len(parser.stack)-1]
                 parser.stack[len(parser.stack)-1].Children = append(parser.stack[len(parser.stack)-1].Children, child)
@@ -65,7 +65,7 @@ func (parser *Parser)next() int {
     return parser.index
 }
 
-func (parser *Parser)loogAheadToken(n int) *Token {
+func (parser *Parser)lookaheadToken(n int) *Token {
     return parser.tokens[parser.index + n]
 }
 
@@ -74,8 +74,8 @@ func (parser *Parser)stackNode() {
     newNode := &Node{Tag: parser.nextToken().Value, Attributes: map[string]string{}}
     parser.next()
     for parser.nextToken().Kind != RAB {
-        if parser.nextToken().Kind == TEXT && parser.loogAheadToken(1).Kind == EQ && parser.loogAheadToken(2).Kind == TEXT {
-            newNode.Attributes[parser.nextToken().Value] = parser.loogAheadToken(2).Value
+        if parser.nextToken().Kind == TEXT && parser.lookaheadToken(1).Kind == EQ && parser.lookaheadToken(2).Kind == TEXT {
+            newNode.Attributes[parser.nextToken().Value] = parser.lookaheadToken(2).Value
             parser.next()
             parser.next()
             parser.next()

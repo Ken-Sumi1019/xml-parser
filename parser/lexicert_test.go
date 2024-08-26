@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
-	"xml-parser/parser"
+	"html-parser/parser"
 )
 
 func TestTypical(t *testing.T) {
-	xml := `<html>konichiha</html>`
+	html := `<html>konichiha</html>`
 	target := []*parser.Token{
 		{Kind: parser.LAB},
 		{Kind: parser.TEXT, Value: "html"},
@@ -19,16 +19,16 @@ func TestTypical(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Lexical(xml)
+	tokens := parser.Lexical(html)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
+			t.Errorf("%+v : %+v", html, tokensToString(tokens))
 		}
 	})
 }
 
 func TestAttribute(t *testing.T) {
-	xml := `<html key="value" key2="va\"lue2">konichiha</html>`
+	html := `<html key="value" key2="va\"lue2">konichiha</html>`
 	target := []*parser.Token{
 		{Kind: parser.LAB},
 		{Kind: parser.TEXT, Value: "html"},
@@ -45,16 +45,16 @@ func TestAttribute(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Lexical(xml)
+	tokens := parser.Lexical(html)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
+			t.Errorf("%+v : %+v", html, tokensToString(tokens))
 		}
 	})
 }
 
 func TestNewLine(t *testing.T) {
-	xml := `
+	html := `
     <html>
     konichiha
     </html>
@@ -69,16 +69,16 @@ func TestNewLine(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Lexical(xml)
+	tokens := parser.Lexical(html)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
+			t.Errorf("%+v : %+v", html, tokensToString(tokens))
 		}
 	})
 }
 
 func TestNest(t *testing.T) {
-	xml := `
+	html := `
     <html>
         <body>
             konichiha
@@ -102,16 +102,16 @@ func TestNest(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Lexical(xml)
+	tokens := parser.Lexical(html)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
+			t.Errorf("%+v : %+v", html, tokensToString(tokens))
 		}
 	})
 }
 
 func TestNestWithAttribute(t *testing.T) {
-	xml := `
+	html := `
     <html key="value" key2="va\"lue2">
         <body>
             konichiha
@@ -141,10 +141,10 @@ func TestNestWithAttribute(t *testing.T) {
 		{Kind: parser.TEXT, Value: "html"},
 		{Kind: parser.RAB},
 	}
-	tokens := parser.Lexical(xml)
+	tokens := parser.Lexical(html)
 	t.Run("typical", func(t *testing.T) {
 		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", xml, tokensToString(tokens))
+			t.Errorf("%+v : %+v", html, tokensToString(tokens))
 		}
 	})
 }

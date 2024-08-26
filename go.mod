@@ -1,3 +1,3 @@
-module xml-parser
+module html-parser
 
 go 1.23.0
