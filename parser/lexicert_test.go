@@ -20,11 +20,9 @@ func TestTypical(t *testing.T) {
 		{Kind: parser.RAB},
 	}
 	tokens := parser.Lexical(html)
-	t.Run("typical", func(t *testing.T) {
-		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", html, tokensToString(tokens))
-		}
-	})
+	if !reflect.DeepEqual(tokens, target) {
+		t.Errorf("%+v : %+v", html, tokensToString(tokens))
+	}
 }
 
 func TestAttribute(t *testing.T) {
@@ -46,11 +44,9 @@ func TestAttribute(t *testing.T) {
 		{Kind: parser.RAB},
 	}
 	tokens := parser.Lexical(html)
-	t.Run("typical", func(t *testing.T) {
-		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", html, tokensToString(tokens))
-		}
-	})
+	if !reflect.DeepEqual(tokens, target) {
+		t.Errorf("%+v : %+v", html, tokensToString(tokens))
+	}
 }
 
 func TestNewLine(t *testing.T) {
@@ -70,11 +66,9 @@ func TestNewLine(t *testing.T) {
 		{Kind: parser.RAB},
 	}
 	tokens := parser.Lexical(html)
-	t.Run("typical", func(t *testing.T) {
-		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", html, tokensToString(tokens))
-		}
-	})
+	if !reflect.DeepEqual(tokens, target) {
+		t.Errorf("%+v : %+v", html, tokensToString(tokens))
+	}
 }
 
 func TestAsciiWhitespace(t *testing.T) {
@@ -90,11 +84,9 @@ func TestAsciiWhitespace(t *testing.T) {
 		{Kind: parser.RAB},
 	}
 	tokens := parser.Lexical(html)
-	t.Run("typical", func(t *testing.T) {
-		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", html, tokensToString(tokens))
-		}
-	})
+	if !reflect.DeepEqual(tokens, target) {
+		t.Errorf("%+v : %+v", html, tokensToString(tokens))
+	}
 }
 
 func TestNest(t *testing.T) {
@@ -123,11 +115,9 @@ func TestNest(t *testing.T) {
 		{Kind: parser.RAB},
 	}
 	tokens := parser.Lexical(html)
-	t.Run("typical", func(t *testing.T) {
-		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", html, tokensToString(tokens))
-		}
-	})
+	if !reflect.DeepEqual(tokens, target) {
+		t.Errorf("%+v : %+v", html, tokensToString(tokens))
+	}
 }
 
 func TestNestWithAttribute(t *testing.T) {
@@ -162,17 +152,15 @@ func TestNestWithAttribute(t *testing.T) {
 		{Kind: parser.RAB},
 	}
 	tokens := parser.Lexical(html)
-	t.Run("typical", func(t *testing.T) {
-		if !reflect.DeepEqual(tokens, target) {
-			t.Errorf("%+v : %+v", html, tokensToString(tokens))
-		}
-	})
+	if !reflect.DeepEqual(tokens, target) {
+		t.Errorf("%+v : %+v", html, tokensToString(tokens))
+	}
 }
 
 func tokensToString(tokens []*parser.Token) string {
 	result := ""
-    for _,v :=range tokens {
-        result += fmt.Sprintf("%+v", *v)
-    }
-    return result
+	for _, v := range tokens {
+		result += fmt.Sprintf("%+v", *v)
+	}
+	return result
 }
