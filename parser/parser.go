@@ -30,19 +30,13 @@ func Parse(html string) *Node {
 func (parser *Parser)analyze() {
 	
     for parser.index < len(parser.tokens) && len(parser.stack) > 0 {
-        fmt.Println(parser.nextToken().Kind)
-        fmt.Printf("%+v \n", parser.stack[len(parser.stack)-1])
-        fmt.Printf("%+v \n", parser.stack)
+        // fmt.Println(parser.nextToken().Kind)
+        // fmt.Printf("%+v \n", parser.stack[len(parser.stack)-1])
+        // fmt.Printf("%+v \n", parser.stack)
         switch parser.nextToken().Kind {
         case LAB:
             if parser.lookaheadToken(1).Kind == SLASH {
-                child := parser.stack[len(parser.stack)-1]
-                parser.stack = parser.stack[:len(parser.stack)-1]
-                parser.stack[len(parser.stack)-1].Children = append(parser.stack[len(parser.stack)-1].Children, child)
-                parser.next()
-                parser.next()
-                parser.next()
-                parser.next()
+                parser.popNode()
             } else {
                 parser.stackNode()
             }
@@ -85,4 +79,33 @@ func (parser *Parser)stackNode() {
     }
     parser.stack = append(parser.stack, newNode)
     parser.next()
+}
+
+func (parser *Parser)popNode()  {
+    tag := parser.lookaheadToken(2).Value
+    for {
+        child := parser.stack[len(parser.stack)-1]
+        fmt.Println(child.Children)
+        for _, v := range child.Children {
+            fmt.Println(v.Text, v.Tag)
+        }
+        parser.stack = parser.stack[:len(parser.stack)-1]
+        parser.stack[len(parser.stack)-1].Children = append(parser.stack[len(parser.stack)-1].Children, child)
+        parser.next()
+        parser.next()
+        parser.next()
+        parser.next()
+        if child.Tag == tag {break}
+        
+    // fmt.Printf(treeToString(parser.root, ""))
+    }
+}
+
+func treeToString(node *Node, result string) string {
+	result += fmt.Sprintf("<Tag: %+v, Attributes: %+v, Text: %+v, Children: [", node.Tag, node.Attributes, node.Text)
+	for _, v := range node.Children {
+		result = treeToString(v,result)
+	}
+	result += "]>,\n"
+	return result
 }
