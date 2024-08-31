@@ -157,6 +157,29 @@ func TestNestWithAttribute(t *testing.T) {
 	}
 }
 
+func TestComment(t *testing.T) {
+	html := `
+    <html>
+		<!--My favorite operators are
+        > and <!-->konichiha
+    </html>
+    `
+	target := []*parser.Token{
+		{Kind: parser.LAB},
+		{Kind: parser.TEXT, Value: "html"},
+		{Kind: parser.RAB},
+		{Kind: parser.TEXT, Value: "konichiha"},
+		{Kind: parser.LAB},
+		{Kind: parser.SLASH},
+		{Kind: parser.TEXT, Value: "html"},
+		{Kind: parser.RAB},
+	}
+	tokens := parser.Lexical(html)
+	if !reflect.DeepEqual(tokens, target) {
+		t.Errorf("%+v : %+v", html, tokensToString(tokens))
+	}
+}
+
 func tokensToString(tokens []*parser.Token) string {
 	result := ""
 	for _, v := range tokens {

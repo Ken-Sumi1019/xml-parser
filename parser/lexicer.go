@@ -22,8 +22,12 @@ func Lexical(html string) []*Token {
 	for lex.index < len(html) {
 		switch lex.nextChar() {
 		case '<':
-			tokens = append(tokens, &Token{Kind: LAB})
-			lex.next()
+			if lex.lookaheadChar(1) == '!' && lex.lookaheadChar(2) == '-' && lex.lookaheadChar(3) == '-' {
+				lex.skipComment()
+			} else {
+				tokens = append(tokens, &Token{Kind: LAB})
+				lex.next()
+			}
 		case '>':
 			tokens = append(tokens, &Token{Kind: RAB})
 			lex.next()
@@ -57,6 +61,10 @@ func (lex *lexicer) nextChar() uint8 {
 	return lex.text[lex.index]
 }
 
+func (lex *lexicer) lookaheadChar(n int) uint8 {
+	return lex.text[lex.index+n]
+}
+
 func (lex *lexicer) next() int {
 	lex.index += 1
 	return lex.index
@@ -83,4 +91,18 @@ func (lex *lexicer) takeOutTextInQuotes() string {
 	}
 	lex.next()
 	return string(resultSlice)
+}
+
+func (lex *lexicer) skipComment() {
+	for {
+		if lex.nextChar() == '-' {
+			if lex.lookaheadChar(1) == '-' && lex.lookaheadChar(2) == '>' {
+				lex.next()
+				lex.next()
+				lex.next()
+				break
+			}
+		}
+		lex.next()
+	}
 }
