@@ -33,7 +33,8 @@ func Lexical(html string) []*Token {
 		case '/':
 			tokens = append(tokens, &Token{Kind: SLASH})
 			lex.next()
-		case ' ', '\n', '\r':
+		// https://triple-underscore.github.io/infra-ja.html#ascii-whitespace
+		case ' ', '\n', '\r', '\t', '\f':
 			lex.next()
 		case '\'', '"':
 			text := lex.takeOutTextInQuotes()
@@ -66,7 +67,7 @@ func (lex *lexicer) takeOutText() string {
 	for lex.nextChar() != '<' && lex.nextChar() != '>' && lex.nextChar() != ' ' && lex.nextChar() != '=' {
 		lex.next()
 	}
-	return strings.Trim(lex.text[firstIdx:lex.index], "\n ")
+	return strings.Trim(lex.text[firstIdx:lex.index], "\n \r\t\f")
 }
 
 func (lex *lexicer) takeOutTextInQuotes() string {

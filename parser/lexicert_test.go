@@ -2,9 +2,9 @@ package parser_test
 
 import (
 	"fmt"
+	"html-parser/parser"
 	"reflect"
 	"testing"
-	"html-parser/parser"
 )
 
 func TestTypical(t *testing.T) {
@@ -56,9 +56,29 @@ func TestAttribute(t *testing.T) {
 func TestNewLine(t *testing.T) {
 	html := `
     <html>
-    konichiha
+        konichiha
     </html>
     `
+	target := []*parser.Token{
+		{Kind: parser.LAB},
+		{Kind: parser.TEXT, Value: "html"},
+		{Kind: parser.RAB},
+		{Kind: parser.TEXT, Value: "konichiha"},
+		{Kind: parser.LAB},
+		{Kind: parser.SLASH},
+		{Kind: parser.TEXT, Value: "html"},
+		{Kind: parser.RAB},
+	}
+	tokens := parser.Lexical(html)
+	t.Run("typical", func(t *testing.T) {
+		if !reflect.DeepEqual(tokens, target) {
+			t.Errorf("%+v : %+v", html, tokensToString(tokens))
+		}
+	})
+}
+
+func TestAsciiWhitespace(t *testing.T) {
+	html := "<html>      \n\t\t\fkonichiha\n\t\t\f \n </html>"
 	target := []*parser.Token{
 		{Kind: parser.LAB},
 		{Kind: parser.TEXT, Value: "html"},
